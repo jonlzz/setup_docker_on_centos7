@@ -16,3 +16,7 @@ myhostname ansible_user=<ansible_user_name>
 ansible-playbook --ask-pass --ask-become-pass pb_setup_docker.yaml
 
 
+reference:
+https://gist.github.com/yonglai/d4617d6914d5f4eb22e4e5a15c0e9a03
+
+
