@@ -1,0 +1,88 @@
+---
+- name: Setup Docker Env
+  hosts: Home
+  vars:
+    var_ol7_url: http://yum.oracle.com/repo/OracleLinux/OL7/developer/x86_64
+    var_vbox_package: VirtualBox-6.0
+    var_docker_machine_url: https://github.com/docker/machine/releases/download/v0.16.0/docker-machine-Linux-x86_64
+    var_docker_compose_url: https://github.com/docker/compose/releases/download/1.24.1/docker-compose-Linux-x86_64
+    var_docker_user: jonathan   #change to your docker user name
+
+  tasks:
+    - name: Install required pkgs
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - yum-utils
+        - device-mapper-persistent-data
+        - lvm2
+        - gcc 
+        - make 
+        - perl 
+        - kernel-devel 
+        - kernel-headers
+      become: yes
+
+    - name: Add Docker repo
+      command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+      become: yes
+
+    - name: Add Oracle Linux Development repo
+      yum_repository:
+        name: OL7
+        description: Oracle Linux Development
+        baseurl: "{{ var_ol7_url }}"
+      become: yes
+
+    - name: Install VirtualBox
+      yum:
+        name: "{{ item }}"
+        state: latest
+        disable_gpg_check: yes
+      with_items:
+        - "{{ var_vbox_package }}" 
+      become: yes
+
+    - name: Install Docker CE
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+      become: yes
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+      become: yes
+
+    - name: Download docker-machine binary
+      get_url:
+        url: "{{ var_docker_machine_url }}"
+        dest: /tmp/docker-machine
+
+    - name: Install docker-machine
+      command: install /tmp/docker-machine /usr/local/bin/docker-machine
+      become: yes
+
+    - name: Download docker-compose binary
+      get_url:
+        url: "{{ var_docker_compose_url }}"
+        dest: /tmp/docker-compose
+
+    - name: Install docker-compose
+      command: install /tmp/docker-compose /usr/local/bin/docker-compose
+      become: yes
+
+    - name: Add user {{ var_docker_user }} to docker group
+      user:
+        name: "{{ var_docker_user }}"
+        groups: docker
+        append: yes
+      become: yes
+
