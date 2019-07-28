@@ -17,6 +17,15 @@ ansible-playbook --ask-pass --ask-become-pass pb_setup_docker.yaml
 
 
 reference:
+
+https://www.virtualbox.org/wiki/Linux_Downloads
+
+https://docs.docker.com/install/linux/docker-ce/centos/
+
+https://docs.docker.com/machine/install-machine/
+
+https://docs.docker.com/compose/install/
+
 https://gist.github.com/yonglai/d4617d6914d5f4eb22e4e5a15c0e9a03
 
 
