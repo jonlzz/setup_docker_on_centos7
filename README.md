@@ -14,12 +14,15 @@ myhostname ansible_user=<ansible_user_name>
 2. replace "var_docker_user: jonathan" line in the pb_setup_docker.yaml file to your "docker user" name
 
 3. run command:
+
 ansible-playbook --ask-pass --ask-become-pass pb_setup_docker.yaml
 
 4. test docker as the "docker user":
+
 docker --version
 
 5. test docker-machine as the "docker user":
+
 docker-machine create --driver virtualbox <vm_name>
 
 docker-machine stop  <vm_name>
