@@ -3,6 +3,7 @@ A sample ansible playbook to setup VirtualBox, docker, docker-machine, docker-co
 
 Steps to run the playbook:
 1. add your env hostname into the /etc/ansible/hosts file:
+
 ex.
 
 [Home]
@@ -10,13 +11,23 @@ ex.
 myhostname ansible_user=<ansible_user_name>
 
 
-2. replace "var_docker_user: jonathan" line in the pb_setup_docker.yaml file to your docker user name
+2. replace "var_docker_user: jonathan" line in the pb_setup_docker.yaml file to your "docker user" name
 
 3. run command:
 ansible-playbook --ask-pass --ask-become-pass pb_setup_docker.yaml
 
+4. test docker as the "docker user":
+docker --version
 
-reference:
+5. test docker-machine as the "docker user":
+docker-machine create --driver virtualbox <vm_name>
+
+docker-machine stop  <vm_name>
+
+docker-machine rm  <vm_name>
+
+
+Also see:
 
 https://www.virtualbox.org/wiki/Linux_Downloads
 

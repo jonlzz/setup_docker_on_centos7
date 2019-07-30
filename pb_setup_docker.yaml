@@ -6,7 +6,7 @@
     var_vbox_package: VirtualBox-6.0
     var_docker_machine_url: https://github.com/docker/machine/releases/download/v0.16.0/docker-machine-Linux-x86_64
     var_docker_compose_url: https://github.com/docker/compose/releases/download/1.24.1/docker-compose-Linux-x86_64
-    var_docker_user: jonathan   #change to your docker user name
+    var_docker_user: jonathan   #change it to your docker user name
 
   tasks:
     - name: Install required pkgs
@@ -54,13 +54,6 @@
         - containerd.io
       become: yes
 
-    - name: Start Docker service
-      service:
-        name: docker
-        state: started
-        enabled: yes
-      become: yes
-
     - name: Download docker-machine binary
       get_url:
         url: "{{ var_docker_machine_url }}"
@@ -84,5 +77,13 @@
         name: "{{ var_docker_user }}"
         groups: docker
         append: yes
+        state: present
+      become: yes
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
       become: yes
 
