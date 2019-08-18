@@ -37,11 +37,9 @@
 
     - name: Install VirtualBox
       yum:
-        name: "{{ item }}"
+        name: ['{{ var_vbox_package }}']
         state: latest
         disable_gpg_check: yes
-      with_items:
-        - "{{ var_vbox_package }}" 
       become: yes
 
     - name: Install Docker CE
